@@ -1,11 +1,24 @@
 const { select, input, checkbox } = require("@inquirer/prompts");
+// armazenar todos
+const fs = require("fs").promises;
+
 let mensagem = "Bem vindo ao App de Metas! :)";
 
-let meta = {
-    value: "correr até passar mal",
-    checked: false,
-};
+let meta = {};
+
 let metas = [meta];
+
+const carregarMetas = async () => {
+    try {
+        const dados = await fs.readFile("metas.json", "utf8");
+        metas = JSON.parse(dados);
+    } catch (err) {
+        metas = [];
+    }
+};
+const salvarMetas = async () => {
+    await fs.writeFile("metas.json", JSON.stringify(metas, null, 2));
+};
 
 const cadastrar = async () => {
     const meta = await input({ message: "digite a meta" });
@@ -125,9 +138,11 @@ const mostrarMensagens = () => {
 };
 
 const start = async () => {
+    await carregarMetas();
     while (true) {
         mostrarMensagens();
-        //! Toda função que receber await deverá ter tambem o async
+        await salvarMetas();
+        // Toda função que receber await deverá ter tambem o async
         const opcao = await select({
             message: "Menu >",
             choices: [
@@ -181,3 +196,5 @@ const start = async () => {
     }
 };
 start();
+
+// concluido em 21/09/24

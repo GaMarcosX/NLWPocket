@@ -3,6 +3,6 @@
     -   Metas realizadas
     -   Metas abertas
 -   [x] Marcar/Desmarcar metas realizadas
--   Remover metas
--   Sitema de mensagens
+-   [x]Remover metas
+-   [x]Sitema de mensagens
 -   fim
