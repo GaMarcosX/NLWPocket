@@ -60,6 +60,23 @@ const metasRealizadas = async () => {
         console.log(realizadas);
     }
 };
+// mesma coisa que as realizadas, porem com o sinal de "!" para inverter true/false
+const metasAbertas = async () => {
+    const abertas = metas.filter((meta) => {
+        return !meta.checked;
+    });
+    if (abertas.length == 0) {
+        console.log("Nenhuma meta aberta.");
+        return;
+    } else {
+        console.log(abertas);
+    }
+
+    await select({
+        message: "Você tem " + abertas.length + " metas abertas.",
+        choices: [...abertas],
+    });
+};
 
 const start = async () => {
     while (true) {
@@ -80,6 +97,10 @@ const start = async () => {
                     value: "realizar",
                 },
                 {
+                    name: "metas abertas",
+                    value: "abertas",
+                },
+                {
                     name: "sair",
                     value: "sair",
                 },
@@ -94,6 +115,9 @@ const start = async () => {
                 break;
             case "realizar":
                 await metasRealizadas();
+                break;
+            case "abertas":
+                await metasAbertas();
                 break;
             case "sair":
                 console.log("Saindo...");
