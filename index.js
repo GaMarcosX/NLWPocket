@@ -21,14 +21,14 @@ const listarMetas = async () => {
         choices: [...metas],
     });
 
+    metas.forEach((m) => {
+        m.checked = false;
+    });
+
     if (respostas.length == 0) {
         console.log("Nenhuma meta foi marcada.");
         return;
     }
-
-    metas.forEach((m) => {
-        m.checked = false;
-    });
 
     // sistema de marcar checkbox
     respostas.forEach((resposta) => {
@@ -49,6 +49,18 @@ const listarMetas = async () => {
         metas.filter((m) => m.checked)
     );
 };
+const metasRealizadas = async () => {
+    const realizadas = metas.filter((meta) => {
+        return meta.checked;
+    });
+    if (realizadas.length == 0) {
+        console.log("Nenhuma meta foi marcada.");
+        return;
+    } else {
+        console.log(realizadas);
+    }
+};
+
 const start = async () => {
     while (true) {
         //! Toda função que receber await deverá ter tambem o async
@@ -60,16 +72,12 @@ const start = async () => {
                     value: "cadastrar",
                 },
                 {
-                    name: "atualizar meta",
-                    value: "atualizar",
-                },
-                {
-                    name: "excluir meta",
-                    value: "excluir",
-                },
-                {
                     name: "listar metas",
                     value: "listar",
+                },
+                {
+                    name: "metas realizadas",
+                    value: "realizar",
                 },
                 {
                     name: "sair",
@@ -81,14 +89,11 @@ const start = async () => {
             case "cadastrar":
                 await cadastrar(), console.log(metas);
                 break;
-            case "atualizar":
-                console.log("Atualizado");
-                break;
-            case "excluir":
-                console.log("Excluido");
-                break;
             case "listar":
                 await listarMetas();
+                break;
+            case "realizar":
+                await metasRealizadas();
                 break;
             case "sair":
                 console.log("Saindo...");
