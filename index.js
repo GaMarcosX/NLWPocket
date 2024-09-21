@@ -36,6 +36,10 @@ const cadastrar = async () => {
     mensagem = "Meta " + "'" + meta + "'" + " cadastrada com Sucesso!";
 };
 const listarMetas = async () => {
+    if (metas.length == 0) {
+        mensagem = "Você precisa criar uma meta!";
+        return;
+    }
     const respostas = await checkbox({
         message: "use espaço para dar checked/unchecked",
         choices: [...metas],
@@ -74,6 +78,10 @@ const listarMetas = async () => {
     );
 };
 const metasRealizadas = async () => {
+    if (metas.length == 0) {
+        mensagem = "Você precisa criar uma meta!";
+        return;
+    }
     const realizadas = metas.filter((meta) => {
         return meta.checked;
     });
@@ -91,6 +99,10 @@ const metasRealizadas = async () => {
 };
 // mesma coisa que as realizadas, porem com o sinal de "!" para inverter true/false
 const metasAbertas = async () => {
+    if (metas.length == 0) {
+        mensagem = "Você precisa criar uma meta!";
+        return;
+    }
     const abertas = metas.filter((meta) => {
         return !meta.checked;
     });
@@ -108,6 +120,10 @@ const metasAbertas = async () => {
 };
 
 const deletarMetas = async () => {
+    if (metas.length == 0) {
+        mensagem = "Você precisa criar uma meta para deletar uma!";
+        return;
+    }
     const metasDesmarcadas = metas.map((metas) => {
         return { value: metas.value, checked: false };
     });
