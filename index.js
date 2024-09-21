@@ -1,4 +1,6 @@
 const { select, input, checkbox } = require("@inquirer/prompts");
+let mensagem = "Bem vindo ao App de Metas! :)";
+
 let meta = {
     value: "correr até passar mal",
     checked: false,
@@ -9,11 +11,16 @@ const cadastrar = async () => {
     const meta = await input({ message: "digite a meta" });
 
     if (meta == "") {
-        console.log("Meta não pode estar vazia.");
+        mensagem = "Meta não pode estar vazia.";
         return;
+    }
+    if (meta !== "") {
+        mensagem = "Meta " + "'" + meta + "'" + " cadastrada com Sucesso!";
     }
 
     metas.push({ value: meta, checked: false });
+
+    mensagem = "Meta " + "'" + meta + "'" + " cadastrada com Sucesso!";
 };
 const listarMetas = async () => {
     const respostas = await checkbox({
@@ -27,8 +34,11 @@ const listarMetas = async () => {
     });
 
     if (respostas.length == 0) {
-        console.log("Nenhuma meta foi marcada.");
+        mesangem = "Nenhuma meta foi marcada.";
         return;
+    }
+    if (respostas.length !== 0) {
+        mensagem = respostas.length + " meta(s) marcada(s) como concluída(s)";
     }
 
     // sistema de marcar checkbox
@@ -55,7 +65,7 @@ const metasRealizadas = async () => {
         return meta.checked;
     });
     if (realizadas.length == 0) {
-        console.log("Nenhuma meta foi marcada.");
+        mensagem = "Nenhuma meta foi marcada.";
         return;
     } else {
         console.log(realizadas);
@@ -101,11 +111,22 @@ const deletarMetas = async () => {
         });
     });
 
-    console.log(itensADeletar);
+    mensagem = "'" + itensADeletar + "'" + " deletado(s) da lista!";
+};
+
+const mostrarMensagens = () => {
+    console.clear();
+
+    if (mensagem != "") {
+        console.log(mensagem);
+        console.log("");
+        mensagem = "";
+    }
 };
 
 const start = async () => {
     while (true) {
+        mostrarMensagens();
         //! Toda função que receber await deverá ter tambem o async
         const opcao = await select({
             message: "Menu >",
@@ -138,7 +159,7 @@ const start = async () => {
         });
         switch (opcao) {
             case "cadastrar":
-                await cadastrar(), console.log(metas);
+                await cadastrar();
                 break;
             case "listar":
                 await listarMetas();
@@ -154,8 +175,8 @@ const start = async () => {
                 break;
             case "sair":
                 console.log("Saindo...");
+                console.clear;
                 process.exit(0);
-                return;
         }
     }
 };
